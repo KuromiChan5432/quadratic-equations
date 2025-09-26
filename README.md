@@ -1,0 +1,2 @@
+# quadratic-equations
+simple calculation 
