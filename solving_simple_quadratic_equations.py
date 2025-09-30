@@ -1,14 +1,15 @@
 import math
 
+
 def normalize() -> (int, int, int):
-    a,b,c,e,coef = get_input()
+    a, b, c, e, coef = get_input()
     if e != 0:
-        c+=e*(-1)
-    b+=coef*(-1)
-    return a,b,c
+        c += e * (-1)
+    b += coef * (-1)
+    return a, b, c
 
 
-def get_input() -> (int,int,int,int,int):
+def get_input() -> (int, int, int, int, int):
     coef = None
     print('введите коэффициенты для квадратного уравнения')
     print('коэффициент а = ')
@@ -24,13 +25,13 @@ def get_input() -> (int,int,int,int,int):
     if ans == 'Да':
         print('Введите коэффициент переменной')
         coef = int(input())
-    return a,b,c,e,coef
+    return a, b, c, e, coef
 
 
 def solve():
     x_1 = 0
     x_2 = 0
-    a,b,c = normalize()
+    a, b, c = normalize()
     d = b ** 2 - 4 * a * c
     if d > 0:
         print('Дискриминант больше 0 и равен = ', d)
