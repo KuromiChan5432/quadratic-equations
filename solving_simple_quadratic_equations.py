@@ -37,8 +37,7 @@ def converts_strings() -> (str, str):
 
 def get_input() -> (str):
     print('Введите квадратное уравнение ')
-    equations = '2x^2+12x-6 = 3x^2+16x-50'
-    print(equations)
+    equations = input()
     return equations
 
 def list_to_string() -> (str, str, str, str, str, str):
