@@ -37,3 +37,4 @@ Temporary Items
 *.ali
 .idea/
 __pycashe__/
+venv/

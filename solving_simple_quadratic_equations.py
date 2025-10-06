@@ -1,34 +1,30 @@
 import math
 import re
 
+def extract_regular(regular_expr: str,  string: str) -> (list, str):
+    extracted = re.findall(regular_expr, string)
+    new_string = re.sub(regular_expr, '', string)
+    return extracted, new_string
+
 
 def regular() ->(list,list,list,list):
     left, right = converts_strings()
-    quadratic_regular = r"[+-]?\d+x\^\d+"
+    quadratic_regular = r"[+-]?\d*x\^\d+"
     x_regular = r"[+-]?\d+x"
     nums_regular = r"[+-]?\d+"
-    # находим квадраты
-    quadratic_x_left = re.findall(quadratic_regular, left)
-    # удаляем то, что нашли
-    left = re.sub(quadratic_regular, '', left)
-    # Находим просто х
-    x_left = re.findall(x_regular, left)
-    #Удаляем просто х
-    left = re.sub(x_regular, '', left)
-    #Находим числа без переменных
-    num_left = re.findall(nums_regular, left)
-    # находим квадраты
-    quadratic_x_right = re.findall(quadratic_regular, right)
-    # удаляем то, что нашли
-    right = re.sub(quadratic_regular, '', right)
-    #Находим просто х
-    x_right = re.findall(x_regular, right)
-    #Удаляем просто х
-    right = re.sub(x_regular, '', right)
-    # Находим числа без переменных
-    num_right = re.findall(nums_regular, right)
-    print(num_right)
-    return quadratic_x_left, num_left, quadratic_x_right, num_right, x_left, x_right
+
+    answer = []
+
+    for part in [left, right]:
+        # находим квадраты
+        # и удаляем то, что нашли
+        quadratic_x, part = extract_regular(quadratic_regular, part)
+        # Находим просто х и удаляем
+        x, part = extract_regular(x_regular, part)
+        #Находим числа без переменных
+        num = re.findall(nums_regular, part)
+        answer.extend([quadratic_x, x, num])
+    return answer
 
 def converts_strings() -> (str, str):
     equations = get_input().strip()
@@ -40,59 +36,93 @@ def get_input() -> (str):
     equations = input()
     return equations
 
-def list_to_string() -> (str, str, str, str, str, str):
-    quadratic_x_left, num_left, quadratic_x_right, num_right, x_left, x_right = regular()
-    quadratic_x_left = ''.join(quadratic_x_left)
-    quadratic_x_right = ''.join(quadratic_x_right)
-    num_left = ''.join(num_left)
-    print(num_left,'после строки')
-    num_right = ''.join(num_right)
-    x_left = ''.join(x_left)
-    x_right = ''.join(x_right)
-    return x_left, x_right, num_left, num_right, quadratic_x_left, quadratic_x_right
+def summarize() -> (int,int,int):
+    quadratic_x_left, x_left, num_left, quadratic_x_right, x_right, num_right = regular()
+    quadratic_x = []
+    x = []
+    for i in quadratic_x_left:
+        coef = i.split("x")[0]
+        if coef == "":
+            coef = "1"
+            quadratic_x.append(int(coef))
+        elif coef == "-":
+            coef = "-1"
+            quadratic_x.append(int(coef))
+        else:
+            quadratic_x.append(int(coef))
+    for i in quadratic_x_right:
+        coef = i.split("x")[0]
+        if coef == "":
+            coef = "1"
+            quadratic_x.append(int(coef))
+        elif coef == "-":
+            coef = "-1"
+            quadratic_x.append(int(coef))
+        else:
+            quadratic_x.append(int(coef))
+    for i in x_left:
+        coef = i.split("x")[0]
+        print(coef)
+        if coef == "":
+            coef = "1"
+            x.append(int(coef))
+        elif coef == "-":
+            coef = "-1"
+            x.append(int(coef))
+        else:
+            x.append(int(coef))
+            print(x)
+    for i in x_right:
+        coef = i.split("x")[0]
+        if coef == "":
+            coef = "1"
+            x.append(int(coef))
+        elif coef == "-":
+            coef = "-1"
+            x.append(int(coef))
+        else:
+            x.append(int(coef))
+    for i in num_left:
+        if i == "":
+            coef = "0"
+            num_left.append(int(coef))
+    for i in num_right:
+        if i == "":
+            coef = "0"
+            num_right.append(int(coef))
+    sum_quadro = sum(quadratic_x)
+    sum_x = sum(x)
+    num_left_int = int(num_left[0])
+    num_right_int = int(num_right[0])
+    num_sum = num_left_int+num_right_int
+    num_sum = int(num_sum)
+    return sum_quadro,sum_x, num_sum
+    # пройтись по каждому из этих списков
+    # для каждого элемента списка выделить коэффициент слева от x (через .split('x'))
+    # преобразовать коэффициент к float
+    # сложить все значения элементов этого списка
 
-def string_to_int():
-    x_left, x_right, num_left, num_right, quadratic_x_left, quadratic_x_right = list_to_string()
-    print(num_left)
-    print(num_right)
-    re_coef = r'[+-]?\d+'
-    a_left, a_right =(0,0)
-    b_left, b_right = (0,0)
-    match = re.match(re_coef,x_left)
-    if match:
-        b_left = int(match.group(0))
-    match = re.match (re_coef,x_right)
-    if match:
-        b_right = int(match.group(0))
-    match = re.match (re_coef,quadratic_x_left)
-    if match:
-        a_left = int(match.group(0))
-    match = re.match (re_coef,quadratic_x_right)
-    if match:
-        a_right = int(match.group(0))
-    c_left = int(num_left)
-    c_right = int(num_right)
-    return a_left, a_right, b_left, b_right, c_left, c_right
+    # в итоге вернуть посчитанные коэф. нормализованного уравнения (ax^2 + bx + c = 0)
 
 def solve():
-    a_left, a_right, b_left, b_right, c_left, c_right = string_to_int()
-    print(a_left, a_right, b_left, b_right, c_left, c_right)
-    a = a_left + (a_right*-1)
-    b = b_left + (b_right*-1)
-    c = c_left + (c_right*-1)
-    print(a, type(a))
-    print(b, type(b))
-    print(c, type(c))
+    sum_quadro,sum_x, num_sum = summarize()
+    a = sum_quadro
+    b = sum_x
+    c = num_sum
+    print(a, b, c)
     x_1 = 0
     x_2 = 0
     d = b ** 2 - 4 * a * c
     if d > 0:
         print('Дискриминант больше 0 и равен = ', d)
-        x_1 = (-b + (math.sqrt(d))) / (2 * a)
-        x_2 = (-b - (math.sqrt(d))) / (2 * a)
+        x_1 = (-b - (math.sqrt(d))) / (2 * a)
+        x_2 = (-b + (math.sqrt(d))) / (2 * a)
+        x_1 = round(x_1, 2)
+        x_2 = round(x_2,2)
     elif d == 0:
         print('Дискриминант равен нулю')
         x_1 = (-b) / (2 * a)
+        x_1 = round(x_1,2)
     elif d < 0:
         print('Дискриминант меньше нуля, следовательно в уравнении нет корней')
     return x_1, x_2
