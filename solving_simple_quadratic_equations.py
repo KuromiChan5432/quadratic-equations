@@ -40,7 +40,6 @@ def converts_strings() -> (str, str):
 
 def get_input() -> (str):
     print('Введите квадратное уравнение ')
-    reg_c = r'[+-]?\d+'
     equations = input()
     return equations
 
