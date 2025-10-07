@@ -18,3 +18,9 @@ def test_quadratic_random():
         result1, result2 = solve()
         assert result1 == 8.52
         assert result2 == -1.52
+def test_quadratic_no_c():
+    with patch("builtins.input", return_value="x^2+11x=0"):
+        result1, result2 = solve()
+        assert result1 == -11
+        assert result2 == 0
+

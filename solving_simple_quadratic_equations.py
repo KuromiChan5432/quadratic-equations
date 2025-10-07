@@ -29,10 +29,18 @@ def regular() ->(list,list,list,list):
 def converts_strings() -> (str, str):
     equations = get_input().strip()
     left, right = equations.split("=")
-    return left, right
+    reg_c = r'[+-]?\[^^]\d+[^a-zA-Z]'
+    print(re.search(reg_c, left))
+    if re.findall(reg_c, left) == []:
+        left += '+0'
+        print(re.findall(reg_c, left))
+        return left, right
+    else:
+        return left, right
 
 def get_input() -> (str):
     print('Введите квадратное уравнение ')
+    reg_c = r'[+-]?\d+'
     equations = input()
     return equations
 
@@ -62,7 +70,6 @@ def summarize() -> (int,int,int):
             quadratic_x.append(int(coef))
     for i in x_left:
         coef = i.split("x")[0]
-        print(coef)
         if coef == "":
             coef = "1"
             x.append(int(coef))
@@ -71,7 +78,6 @@ def summarize() -> (int,int,int):
             x.append(int(coef))
         else:
             x.append(int(coef))
-            print(x)
     for i in x_right:
         coef = i.split("x")[0]
         if coef == "":
@@ -83,15 +89,18 @@ def summarize() -> (int,int,int):
         else:
             x.append(int(coef))
     for i in num_left:
-        if i == "":
+        if len(num_left) == 0:
             coef = "0"
+            coef += coef.join(i)
             num_left.append(int(coef))
     for i in num_right:
-        if i == "":
+        if len(num_right) == 0:
             coef = "0"
+            coef += coef.join(i)
             num_right.append(int(coef))
     sum_quadro = sum(quadratic_x)
     sum_x = sum(x)
+    print(num_left, num_right)
     num_left_int = int(num_left[0])
     num_right_int = int(num_right[0])
     num_sum = num_left_int+num_right_int
@@ -109,7 +118,6 @@ def solve():
     a = sum_quadro
     b = sum_x
     c = num_sum
-    print(a, b, c)
     x_1 = 0
     x_2 = 0
     d = b ** 2 - 4 * a * c
