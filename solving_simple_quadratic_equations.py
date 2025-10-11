@@ -39,9 +39,11 @@ def converts_strings() -> (str, str):
         return left, right
 
 def get_input() -> (str):
-    print('Введите квадратное уравнение ')
-    equations = input()
-    return equations
+    # global stored_equation
+    # stored_equation = equation
+    print('введите уравенение')
+    stored_equation = input()
+    return stored_equation
 
 def summarize() -> (int,int,int):
     quadratic_x_left, x_left, num_left, quadratic_x_right, x_right, num_right = regular()
