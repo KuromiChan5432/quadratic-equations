@@ -23,4 +23,3 @@ def test_quadratic_no_c():
         result1, result2 = solve()
         assert result1 == -11
         assert result2 == 0
-

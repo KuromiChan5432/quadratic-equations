@@ -30,10 +30,8 @@ def converts_strings() -> (str, str):
     equations = get_input().strip()
     left, right = equations.split("=")
     reg_c = r'[+-]?\[^^]\d+[^a-zA-Z]'
-    print(re.search(reg_c, left))
     if re.findall(reg_c, left) == []:
         left += '+0'
-        print(re.findall(reg_c, left))
         return left, right
     else:
         return left, right
@@ -101,7 +99,6 @@ def summarize() -> (int,int,int):
             num_right.append(int(coef))
     sum_quadro = sum(quadratic_x)
     sum_x = sum(x)
-    print(num_left, num_right)
     num_left_int = int(num_left[0])
     num_right_int = int(num_right[0])
     num_sum = num_left_int+num_right_int
