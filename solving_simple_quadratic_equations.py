@@ -1,14 +1,21 @@
 import math
 import re
 
+
+def extract_coef(equasion):
+    left,right = converts_strings(equasion)
+    answer = regular(left,right)
+    sum_quadro, sum_x, num_sum = summarize(answer[0],answer[1],answer[2],answer[3],answer[4],answer[5])
+    return sum_quadro, sum_x, num_sum
+
 def extract_regular(regular_expr: str,  string: str) -> (list, str):
     extracted = re.findall(regular_expr, string)
     new_string = re.sub(regular_expr, '', string)
     return extracted, new_string
 
 
-def regular() ->(list,list,list,list):
-    left, right = converts_strings()
+def regular(left: list, right: list) ->(list,list,list,list):
+    # left, right = converts_strings()
     quadratic_regular = r"[+-]?\d*x\^\d+"
     x_regular = r"[+-]?\d+x"
     nums_regular = r"[+-]?\d+"
@@ -26,8 +33,8 @@ def regular() ->(list,list,list,list):
         answer.extend([quadratic_x, x, num])
     return answer
 
-def converts_strings() -> (str, str):
-    equations = get_input().strip()
+def converts_strings(equasion) -> (str, str):
+    equations = equasion.strip()
     left, right = equations.split("=")
     reg_c = r'[+-]?\[^^]\d+[^a-zA-Z]'
     if re.findall(reg_c, left) == []:
@@ -36,15 +43,13 @@ def converts_strings() -> (str, str):
     else:
         return left, right
 
-def get_input() -> (str):
-    # global stored_equation
-    # stored_equation = equation
-    print('введите уравенение')
-    stored_equation = input()
-    return stored_equation
+# def get_input() -> (str):
+#     print('введите уравенение')
+#     stored_equation = input()
+#     return stored_equation
 
-def summarize() -> (int,int,int):
-    quadratic_x_left, x_left, num_left, quadratic_x_right, x_right, num_right = regular()
+def summarize(quadratic_x_left, x_left, num_left, quadratic_x_right, x_right, num_right) -> (int,int,int):
+    # quadratic_x_left, x_left, num_left, quadratic_x_right, x_right, num_right = regular()
     quadratic_x = []
     x = []
     for i in quadratic_x_left:
@@ -111,8 +116,8 @@ def summarize() -> (int,int,int):
 
     # в итоге вернуть посчитанные коэф. нормализованного уравнения (ax^2 + bx + c = 0)
 
-def solve():
-    sum_quadro,sum_x, num_sum = summarize()
+def solve(sum_quadro,sum_x, num_sum):
+    # sum_quadro,sum_x, num_sum = summarize()
     a = sum_quadro
     b = sum_x
     c = num_sum
